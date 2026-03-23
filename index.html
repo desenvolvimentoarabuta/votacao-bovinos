@@ -124,7 +124,7 @@
 
     .radio-option { position: relative; }
 
-    .radio-option input[type="checkbox"] {
+    .radio-option input[type="radio"] {
       position: absolute;
       opacity: 0;
       width: 0;
@@ -152,24 +152,24 @@
       background: rgba(74,140,63,0.06);
     }
 
-    .radio-option input[type="checkbox"]:checked + label {
+    .radio-option input[type="radio"]:checked + label {
       border-color: var(--verde);
       background: rgba(45,90,39,0.07);
       color: var(--verde);
       font-weight: 600;
     }
 
-    .radio-option input[type="checkbox"]:checked + label .dot {
+    .radio-option input[type="radio"]:checked + label .dot {
       background: var(--verde);
     }
 
     /* Zebu */
-    .card.zebu .radio-option input[type="checkbox"]:checked + label {
+    .card.zebu .radio-option input[type="radio"]:checked + label {
       border-color: var(--terra);
       background: rgba(139,69,19,0.07);
       color: var(--terra);
     }
-    .card.zebu .radio-option input[type="checkbox"]:checked + label .dot {
+    .card.zebu .radio-option input[type="radio"]:checked + label .dot {
       background: var(--terra);
     }
     .card.zebu .radio-option label:hover {
@@ -187,7 +187,7 @@
     .dot {
       width: 10px;
       height: 10px;
-      border-radius: 3px;
+      border-radius: 50%;
       background: #ccc;
       flex-shrink: 0;
       transition: background 0.18s;
@@ -270,7 +270,7 @@
   <header>
     <div class="badge">🐂 Votação Oficial</div>
     <h1>Escolha seu Campeão</h1>
-    <p>Selecione 2 bois de cada categoria para registrar seu voto</p>
+    <p>Selecione um boi de cada categoria para registrar seu voto</p>
   </header>
 
   <div id="globalMsg" class="msg erro">
@@ -291,13 +291,13 @@
 
     <div class="card" id="cardEuropeu">
       <div class="card-title">🌿 Raças Europeias</div>
-      <div class="card-subtitle">Escolha 2 bois — obrigatório</div>
+      <div class="card-subtitle">Escolha 1 boi — obrigatório</div>
       <div class="radio-grid" id="gridEuropeu"></div>
     </div>
 
     <div class="card zebu" id="cardZebu">
       <div class="card-title">☀️ Raças Zebuínas</div>
-      <div class="card-subtitle">Escolha 2 bois — obrigatório</div>
+      <div class="card-subtitle">Escolha 1 boi — obrigatório</div>
       <div class="radio-grid" id="gridZebu"></div>
     </div>
 
@@ -348,29 +348,17 @@
     "Baia 4", "Baia 5", "Baia 6"
   ];
 
-  // ---- Renderiza checkboxes com limite de 2 ------------------
+  // ---- Renderiza opções --------------------------------------
   function renderOpcoes(lista, containerId, grupo) {
     const grid = document.getElementById(containerId);
     grid.innerHTML = lista.map((nome, i) => `
       <div class="radio-option">
-        <input type="checkbox" id="${grupo}_${i}" name="${grupo}" value="${i + 1}">
+        <input type="radio" id="${grupo}_${i}" name="${grupo}" value="${i + 1}">
         <label for="${grupo}_${i}">
           <span class="dot"></span>${nome}
         </label>
       </div>
     `).join('');
-
-    // controla limite de 2 seleções
-    grid.addEventListener('change', () => {
-      const checks = grid.querySelectorAll('input[type="checkbox"]');
-      const total  = [...checks].filter(c => c.checked).length;
-      checks.forEach(c => {
-        const label = c.nextElementSibling;
-        if (!c.checked) {
-          total >= 2 ? label.classList.add('limite') : label.classList.remove('limite');
-        }
-      });
-    });
   }
 
   renderOpcoes(boisEuropeus, 'gridEuropeu', 'europeu');
@@ -421,22 +409,22 @@
 
     const cpfRaw  = document.getElementById('cpf').value;
     const cpfNum  = cpfRaw.replace(/\D/g, '');
-    const europeus = [...document.querySelectorAll('input[name="europeu"]:checked')].map(c => c.value);
-    const zebuinos = [...document.querySelectorAll('input[name="zebuino"]:checked')].map(c => c.value);
+    const europeu = document.querySelector('input[name="europeu"]:checked')?.value;
+    const zebuino = document.querySelector('input[name="zebuino"]:checked')?.value;
 
     if (!validarCPF(cpfNum)) {
       cpfInput.classList.add('invalid');
       mostrarMsg('CPF inválido. Por favor, verifique e tente novamente.');
       return;
     }
-    if (europeus.length !== 2) {
+    if (!europeu) {
       document.getElementById('cardEuropeu').scrollIntoView({ behavior: 'smooth' });
-      mostrarMsg('Escolha exatamente 2 bois da raça europeia.');
+      mostrarMsg('Escolha um boi da raça europeia.');
       return;
     }
-    if (zebuinos.length !== 2) {
+    if (!zebuino) {
       document.getElementById('cardZebu').scrollIntoView({ behavior: 'smooth' });
-      mostrarMsg('Escolha exatamente 2 bois da raça zebuína.');
+      mostrarMsg('Escolha um boi da raça zebuína.');
       return;
     }
 
@@ -458,10 +446,8 @@
       btn.textContent = 'Salvando...';
       await setDoc(ref, {
         cpf:       cpfNum,
-        europeu1:  europeus[0],
-        europeu2:  europeus[1],
-        zebuino1:  zebuinos[0],
-        zebuino2:  zebuinos[1],
+        europeu,
+        zebuino,
         timestamp: serverTimestamp()
       });
 
