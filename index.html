@@ -31,9 +31,15 @@
         radial-gradient(ellipse at 90% 80%, rgba(139,69,19,0.07) 0%, transparent 50%);
     }
 
-    .container { max-width: 720px; margin: 0 auto; }
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
 
-    header { text-align: center; margin-bottom: 2.5rem; }
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
 
     .badge {
       display: inline-block;
@@ -57,8 +63,27 @@
       margin-bottom: 0.5rem;
     }
 
-    header p { color: #666; font-size: 0.95rem; }
+    header p {
+      color: #666;
+      font-size: 0.95rem;
+    }
 
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      color: var(--terra);
+      font-size: 1.2rem;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--creme-escuro);
+    }
+
+    /* CARD */
     .card {
       background: var(--branco);
       border-radius: 16px;
@@ -78,8 +103,13 @@
       gap: 0.5rem;
     }
 
-    .card-subtitle { font-size: 0.85rem; color: #888; margin-bottom: 1.5rem; }
+    .card-subtitle {
+      font-size: 0.85rem;
+      color: #888;
+      margin-bottom: 1.5rem;
+    }
 
+    /* CPF */
     .field label {
       display: block;
       font-size: 0.82rem;
@@ -114,15 +144,22 @@
       box-shadow: 0 0 0 3px rgba(192,57,43,0.12);
     }
 
-    .field-hint { font-size: 0.78rem; color: #999; margin-top: 0.35rem; }
+    .field-hint {
+      font-size: 0.78rem;
+      color: #999;
+      margin-top: 0.35rem;
+    }
 
+    /* RADIO GRID */
     .radio-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       gap: 0.6rem;
     }
 
-    .radio-option { position: relative; }
+    .radio-option {
+      position: relative;
+    }
 
     .radio-option input[type="radio"] {
       position: absolute;
@@ -163,7 +200,7 @@
       background: var(--verde);
     }
 
-    /* Zebu */
+    /* Zebu section */
     .card.zebu .radio-option input[type="radio"]:checked + label {
       border-color: var(--terra);
       background: rgba(139,69,19,0.07);
@@ -176,12 +213,9 @@
       border-color: var(--terra-claro);
       background: rgba(196,105,42,0.06);
     }
-
-    /* opção desabilitada quando limite atingido */
-    .radio-option input[type="checkbox"]:not(:checked) + label.limite {
-      opacity: 0.4;
-      cursor: not-allowed;
-      pointer-events: none;
+    .card.zebu .field input:focus {
+      border-color: var(--terra-claro);
+      box-shadow: 0 0 0 3px rgba(196,105,42,0.15);
     }
 
     .dot {
@@ -193,6 +227,7 @@
       transition: background 0.18s;
     }
 
+    /* BOTÃO */
     .btn-submit {
       width: 100%;
       padding: 1rem;
@@ -214,8 +249,12 @@
       transform: translateY(-1px);
     }
 
-    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
 
+    /* MENSAGENS */
     .msg {
       display: none;
       padding: 1rem 1.2rem;
@@ -241,21 +280,41 @@
       border: 1px solid rgba(39,174,96,0.2);
     }
 
-    .success-screen { display: none; text-align: center; padding: 3rem 2rem; }
+    /* SUCESSO FINAL */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+
     .success-screen.show { display: block; }
-    .success-icon { font-size: 4rem; margin-bottom: 1rem; }
+
+    .success-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
     .success-screen h2 {
       font-family: 'Playfair Display', serif;
       font-size: 1.8rem;
       color: var(--verde);
       margin-bottom: 0.5rem;
     }
-    .success-screen p { color: #666; font-size: 0.95rem; }
+
+    .success-screen p {
+      color: #666;
+      font-size: 0.95rem;
+    }
 
     .form-wrapper { transition: opacity 0.3s; }
     .form-wrapper.hidden { display: none; }
 
-    footer { text-align: center; margin-top: 2rem; font-size: 0.78rem; color: #aaa; }
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.78rem;
+      color: #aaa;
+    }
 
     @media (max-width: 480px) {
       .card { padding: 1.4rem; }
@@ -279,6 +338,7 @@
 
   <div class="form-wrapper" id="formWrapper">
 
+    <!-- CPF -->
     <div class="card">
       <div class="card-title">👤 Identificação</div>
       <div class="card-subtitle">Seu CPF garante que cada pessoa vote apenas uma vez</div>
@@ -289,24 +349,31 @@
       </div>
     </div>
 
+    <!-- EUROPEU -->
     <div class="card" id="cardEuropeu">
       <div class="card-title">🌿 Raças Europeias</div>
       <div class="card-subtitle">Escolha 1 boi — obrigatório</div>
-      <div class="radio-grid" id="gridEuropeu"></div>
+      <div class="radio-grid" id="gridEuropeu">
+        <!-- gerado pelo JS -->
+      </div>
     </div>
 
+    <!-- ZEBUÍNO -->
     <div class="card zebu" id="cardZebu">
       <div class="card-title">☀️ Raças Zebuínas</div>
       <div class="card-subtitle">Escolha 1 boi — obrigatório</div>
-      <div class="radio-grid" id="gridZebu"></div>
+      <div class="radio-grid" id="gridZebu">
+        <!-- gerado pelo JS -->
+      </div>
     </div>
 
     <button class="btn-submit" id="btnVotar" onclick="enviarVoto()">
       Registrar Voto
     </button>
 
-  </div>
+  </div><!-- /form-wrapper -->
 
+  <!-- TELA DE SUCESSO -->
   <div class="success-screen card" id="successScreen">
     <div class="success-icon">🏆</div>
     <h2>Voto Registrado!</h2>
@@ -315,9 +382,14 @@
 
   <footer>Sistema de votação · Dados armazenados com segurança</footer>
 
-</div>
+</div><!-- /container -->
 
+<!-- ============================================================
+     🔥 FIREBASE — cole aqui suas credenciais
+     ============================================================ -->
 <script type="module">
+
+  // ⚠️  SUBSTITUA ABAIXO pelas suas credenciais do Firebase Console
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getFirestore, doc, getDoc, setDoc, serverTimestamp }
     from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -331,6 +403,7 @@
     appId:             "1:842066142656:web:bf47889eb23ec2f0341425",
     measurementId:     "G-NS0LM3Q8P2"
   };
+  // ============================================================
 
   const app = initializeApp(firebaseConfig);
   const db  = getFirestore(app);
@@ -339,13 +412,11 @@
   const boisEuropeus = [
     "Baia 1", "Baia 2", "Baia 3", "Baia 4",
     "Baia 5", "Baia 6", "Baia 7", "Baia 8",
-    "Baia 9", "Baia 10", "Baia 11", "Baia 12",
-    "Baia 13", "Baia 14"
+    "Baia 9", "Baia 10", "Baia 11", "Baia 12"
   ];
 
   const boisZebuinos = [
-    "Baia 1", "Baia 2", "Baia 3",
-    "Baia 4", "Baia 5", "Baia 6"
+    "Baia 1", "Baia 2", "Baia 3"
   ];
 
   // ---- Renderiza opções --------------------------------------
@@ -362,7 +433,7 @@
   }
 
   renderOpcoes(boisEuropeus, 'gridEuropeu', 'europeu');
-  renderOpcoes(boisZebuinos, 'gridZebu',   'zebuino');
+  renderOpcoes(boisZebuinos,  'gridZebu',   'zebuino');
 
   // ---- Máscara CPF -------------------------------------------
   const cpfInput = document.getElementById('cpf');
@@ -391,7 +462,7 @@
     return resto === parseInt(cpf[10]);
   }
 
-  // ---- Mensagens ---------------------------------------------
+  // ---- Mensagem global ----------------------------------------
   function mostrarMsg(texto, tipo = 'erro') {
     const el = document.getElementById('globalMsg');
     document.getElementById('globalMsgText').textContent = texto;
@@ -403,7 +474,7 @@
     document.getElementById('globalMsg').className = 'msg erro';
   }
 
-  // ---- Envio -------------------------------------------------
+  // ---- Envio --------------------------------------------------
   window.enviarVoto = async function() {
     limparMsg();
 
@@ -412,6 +483,7 @@
     const europeu = document.querySelector('input[name="europeu"]:checked')?.value;
     const zebuino = document.querySelector('input[name="zebuino"]:checked')?.value;
 
+    // Validações
     if (!validarCPF(cpfNum)) {
       cpfInput.classList.add('invalid');
       mostrarMsg('CPF inválido. Por favor, verifique e tente novamente.');
@@ -433,6 +505,7 @@
     btn.textContent = 'Verificando...';
 
     try {
+      // Checa se CPF já votou
       const ref  = doc(db, 'votos', cpfNum);
       const snap = await getDoc(ref);
 
@@ -443,6 +516,7 @@
         return;
       }
 
+      // Salva o voto
       btn.textContent = 'Salvando...';
       await setDoc(ref, {
         cpf:       cpfNum,
@@ -451,6 +525,7 @@
         timestamp: serverTimestamp()
       });
 
+      // Tela de sucesso
       document.getElementById('formWrapper').classList.add('hidden');
       const s = document.getElementById('successScreen');
       s.classList.add('show');
